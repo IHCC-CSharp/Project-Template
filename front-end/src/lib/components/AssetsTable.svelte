@@ -7,6 +7,7 @@
   let activeTab = $state("all");
   let selectedMemberId = $state({});
 
+  //TODO this is ugly
   const displayedItems = $derived(
     activeTab === "books"
       ? books.map((b) => ({ ...b, type: "book" }))

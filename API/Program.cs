@@ -1,41 +1,49 @@
+using System.Data;
+using Microsoft.Data.Sqlite;
+using API.Data.Repositories;
+using API.Services;
+using Scalar.AspNetCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                       ?? "Data Source=CampusLocker.db";
+
+builder.Services.AddScoped<IDbConnection>(sp => new SqliteConnection(connectionString));
+
+builder.Services.AddOpenApi(options =>
+{
+    options.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi3_0;
+});
+
+builder.Services.AddControllers();
+
+// Repositories
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<ILaptopRepository, LaptopRepository>();
+builder.Services.AddScoped<IAssetRepository, AssetRepository>();
+
+// Services
+builder.Services.AddScoped<IAssetService, AssetService>();
+builder.Services.AddScoped<IMemberService, MemberService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.MapOpenApi();
+app.MapScalarApiReference();
+
+using (var scope = app.Services.CreateScope())
 {
-    app.MapOpenApi();
+    var connection = scope.ServiceProvider.GetRequiredService<IDbConnection>();
+    await DbInitializer.Initialize(connectionString);
 }
 
-app.UseHttpsRedirection();
+app.MapControllers();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+app.UseCors(policy => policy
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

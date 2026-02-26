@@ -16,7 +16,7 @@
       "Email": "charlie@ihcc.edu"
     }
   ],
-  "Assets": [
+  "Books": [
     {
       "Id": 1,
       "Name": "The C# Player's Guide",
@@ -32,7 +32,9 @@
       "ItemCondition": 2,
       "Author": "Robert C. Martin",
       "CurrentMemberId": 2
-    },
+    }
+  ],
+  "Laptops": [
     {
       "Id": 3,
       "Name": "Dell Latitude 5420",

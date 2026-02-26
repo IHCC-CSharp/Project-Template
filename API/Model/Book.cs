@@ -1,7 +1,7 @@
-namespace DefaultNamespace;
+namespace API.Model;
 
-public class Book : Asset 
+public class Book(string name, string? author) : Asset(name)
 {
-    public string Author { get; set; }
-    public override string GetUsagePolicy() => "Library use: 7 days.";
+    public Book() : this(string.Empty, string.Empty) { }
+    public string Author { get; set; } = string.IsNullOrWhiteSpace(author) ? "Unknown Author" : author;
 }

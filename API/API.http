@@ -1,6 +1,80 @@
-@API_HostAddress = http://localhost:5090
+@hostname = localhost
+@port = 5090
+@host = http://{{hostname}}:{{port}}
 
-GET {{API_HostAddress}}/weatherforecast/
+# TODO Delete this later, we will use OpenAPI documentation
+
+### Get All Assets
+GET {{host}}/api/assets
 Accept: application/json
 
-###
+### 1. Get All Books
+GET {{host}}/api/assets/books
+Accept: application/json
+
+### 2. Get All Laptops
+GET {{host}}/api/assets/laptops
+Accept: application/json
+
+### Create a new laptop
+POST {{host}}/api/assets/laptops
+Content-Type: application/json
+
+{
+  "name": "Dell XPS 15",
+  "itemCondition": 0,
+  "serialNumber": "XPS-5544-ZZ",
+  "os": "Windows 11 Pro"
+}
+
+### 3. Get All Members
+GET {{host}}/api/members
+Accept: application/json
+
+### 4. Create a New Member
+POST {{host}}/api/members
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "jdoe@ihcc.edu"
+}
+
+### Delete a book
+DELETE {{host}}/api/assets/books/1
+
+### Delete a new laptop
+DELETE {{host}}/api/assets/laptops/1
+
+### Create a new book
+POST {{host}}/api/assets/books
+Content-Type: application/json
+
+{
+  "name": "The Clean Coder",
+  "itemCondition": 0,
+  "author": "Robert C. Martin"
+}
+
+### 5. Checkout a Book (Success)
+# Link Book ID 1 to Member ID 3
+POST {{host}}/api/assets/books/checkout/1/3
+
+### 6. Checkout a Book (Error Testing - Already Checked Out)
+# Attempting to checkout the same book again should trigger the Middleware 400 Bad Request
+POST {{host}}/api/assets/books/checkout/1/2
+
+### 7. Checkout an Asset (Error Testing - Member Not Found)
+# Attempting to checkout to a non-existent member should trigger 404 Not Found
+POST {{host}}/api/assets/books/checkout/1/999
+
+### 8. Return a Book
+# Clear the member link for Book ID 1
+POST {{host}}/api/assets/books/return/1
+
+### 9. Return a Laptop
+POST {{host}}/api/assets/laptops/return/3
+
+
+### 10. Delete a Member
+DELETE {{host}}/api/members/3

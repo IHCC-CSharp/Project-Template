@@ -1,4 +1,4 @@
-namespace DefaultNamespace;
+namespace API.Model;
 
 public enum Condition 
 { 

@@ -1,9 +1,9 @@
-namespace DefaultNamespace;
+namespace API.Model;
 
-public class Laptop : Asset 
+public class Laptop(string name, string? serialNumber, string? os) : Asset(name)
 {
-    public string SerialNumber { get; set; }
+    public Laptop() : this(string.Empty, string.Empty, string.Empty) { }
+    public string SerialNumber { get; set; } = string.IsNullOrWhiteSpace(serialNumber) ? "SN-PENDING" : serialNumber;
     
-    public string OS { get; set; }
-    public override string GetUsagePolicy() => "Lab use: 24 hours.";
+    public string OS { get; set; } = string.IsNullOrWhiteSpace(os) ? "Windows 11" : os;
 }
