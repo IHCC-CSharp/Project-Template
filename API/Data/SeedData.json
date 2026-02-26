@@ -1,0 +1,55 @@
+{
+  "Members": [
+    {
+      "Id": 1,
+      "Name": "Alice Vance",
+      "Email": "alice@ihcc.edu"
+    },
+    {
+      "Id": 2,
+      "Name": "Bob Smith",
+      "Email": "bob@ihcc.edu"
+    },
+    {
+      "Id": 3,
+      "Name": "Charlie Day",
+      "Email": "charlie@ihcc.edu"
+    }
+  ],
+  "Assets": [
+    {
+      "Id": 1,
+      "Name": "The C# Player's Guide",
+      "Discriminator": "Book",
+      "ItemCondition": 0,
+      "Author": "RB Whitaker",
+      "CurrentMemberId": null
+    },
+    {
+      "Id": 2,
+      "Name": "Clean Code",
+      "Discriminator": "Book",
+      "ItemCondition": 2,
+      "Author": "Robert C. Martin",
+      "CurrentMemberId": 2
+    },
+    {
+      "Id": 3,
+      "Name": "Dell Latitude 5420",
+      "Discriminator": "Laptop",
+      "ItemCondition": 1,
+      "SerialNumber": "SN-98765-XYZ",
+      "OS": "Windows 11",
+      "CurrentMemberId": 1
+    },
+    {
+      "Id": 4,
+      "Name": "MacBook Pro 14",
+      "Discriminator": "Laptop",
+      "ItemCondition": 0,
+      "SerialNumber": "APPLE-4433-ABC",
+      "OS": "Fedora 43 Linux",
+      "CurrentMemberId": null
+    }
+  ]
+}

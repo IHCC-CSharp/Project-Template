@@ -1,0 +1,18 @@
+# Build results
+bin/
+obj/
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+packages/
+
+# SQLite database files
+*.db
+*.db-shm
+*.db-wal
+
+# IDE
+.vscode
+.idea
+
